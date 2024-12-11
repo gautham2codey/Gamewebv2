@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameFrame By Evan</title>
+
+    <link rel="stylesheet" href="styles.css">
+<style>/* General Styles for Body and HTML */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e1eec3, #f05053);
+    overflow: hidden;
+}
+
+#navbar {
+    display: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    position: relative;
+    width: 100%;
+    z-index: 1000;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#navbar input[type="text"] {
+    flex: 2;
+    padding: 10px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    max-width: calc(100% - 140px);
+    box-sizing: border-box;
+}
+#navbar button {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 10px 5px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    flex: 1;
+    max-width: 100px;
+}
+
+#navbar button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#navbar button:focus {
+    border-color: #00aaff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#tabs {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 5px 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    margin-right: 5px;
+    background: #444;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab.active {
+    background: #6a11cb;
+}
+
+.close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #6a11cb;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: background 0.3s;
+}
+
+.close-button:hover {
+    background: #2575fc;
+}
+
+#newTabButton {
+    background: #6a11cb;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+#urlInput {
+    width: 50%;
+    padding: 10px 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+}
+
+#urlInput:focus {
+    border-color: #00aaff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#urlInput:invalid {
+    border-color: #ff6347;
+}
+
+#urlInput:valid {
+    border-color: #32cd32;
+}
+
+
+iframe {
+    width: 100%;
+    height: calc(100vh - 120px);
+    border: none;
+    position: absolute;
+    top: 153px;
+}
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+#popup, #performancePopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1100;
+}
+
+#popup button, #performancePopup button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #6a11cb;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+#popup button:hover, #performancePopup button:hover {
+    background: #2575fc;
+}
+
+#dragButton {
+    width: 30px;
+    height: 30px;
+    background: #6a11cb;
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: grab;
+    z-index: 1001;
+}
+
+/* Hidden Navbar */
+#navbar.hidden {
+    display: none;
+}
+</style>
+</style>
+</head>
+<body>
+    <div id="navbarContainer">
+        <div id="navbar">
+            <hp>GameFrame By Evan</hp>
+            <hr>
+            <button><a id="home" href="index.html">Back</a></button>
+            <input type="text" id="urlInput" placeholder="Enter URL" />
+            <button id="loadButton">Load</button>
+        </div>
+    </div>
+    <div id="tabs">
+        <button id="newTabButton">+</button><br>
+      </div><br>
+
+    <div id="iframeContainer"></div>
+    
+    <iframe id="urlFrame"></iframe>
+       <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlInput = document.getElementById('urlInput');
+    const loadButton = document.getElementById('loadButton');
+    const newTabButton = document.getElementById('newTabButton');
+    const tabs = document.getElementById('tabs');
+    const iframeContainer = document.getElementById('iframeContainer');
+
+    let tabCount = 0;
+    let activeTabId = null;
+
+    function createTab(url) {
+        const tabId = `tab-${tabCount}`;
+        const tab = document.createElement('div');
+        tab.className = 'tab';
+        tab.dataset.tabId = tabId;
+        tab.innerHTML = `
+            <span>${url}</span>
+            <button class="fullscreen-button" data-tab-id="${tabId}">🗖</button>
+            <button class="close-button" data-tab-id="${tabId}">X</button>
+        `;
+        const closeButton = tab.querySelector('.close-button');
+        closeButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            removeTab(tabId);
+        });
+        const fullscreenButton = tab.querySelector('.fullscreen-button');
+        fullscreenButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            fullscreenIframe(tabId);
+        });
+        tab.addEventListener('click', () => switchTab(tabId));
+        tabs.insertBefore(tab, newTabButton);
+
+        createIframe(url, tabId);
+        tabCount++;
+        switchTab(tabId);
+
+        return tab;
+    }
+
+    function createIframe(url, tabId) {
+        const iframe = document.createElement('iframe');
+        iframe.src = url;
+        iframe.dataset.tabId = tabId;
+        iframe.style.display = 'none';
+        iframeContainer.appendChild(iframe);
+        return iframe;
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.tabId === tabId);
+        });
+        document.querySelectorAll('iframe').forEach(iframe => {
+            iframe.style.display = iframe.dataset.tabId === tabId ? 'block' : 'none';
+        });
+        activeTabId = tabId;
+        saveTabsToLocalStorage();
+    }
+
+    function removeTab(tabId) {
+        const tab = document.querySelector(`.tab[data-tab-id="${tabId}"]`);
+        const iframe = document.querySelector(`iframe[data-tab-id="${tabId}"]`);
+        if (tab && iframe) {
+            tab.remove();
+            iframe.remove();
+
+            if (tabId === activeTabId) {
+                const remainingTabs = document.querySelectorAll('.tab');
+                if (remainingTabs.length > 0) {
+                    const index = Array.from(tabs.children).indexOf(newTabButton) - 1;
+                    const newActiveTab = remainingTabs[Math.min(index, remainingTabs.length - 1)];
+                    switchTab(newActiveTab.dataset.tabId);
+                } else {
+                    activeTabId = null;
+                    iframeContainer.innerHTML = '';
+                }
+            }
+
+            saveTabsToLocalStorage();
+        }
+    }
+
+    function fullscreenIframe(tabId) {
+        const iframe = document.querySelector(`iframe[data-tab-id="${tabId}"]`);
+        if (iframe) {
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) {
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
+            }
+        }
+    }
+
+    function saveTabsToLocalStorage() {
+        const tabsData = [];
+        document.querySelectorAll('.tab').forEach(tab => {
+            const url = tab.querySelector('span').textContent;
+            const tabId = tab.dataset.tabId;
+            const iframeSrc = document.querySelector(`iframe[data-tab-id="${tabId}"]`).src;
+            tabsData.push({ tabId, url, iframeSrc });
+        });
+        localStorage.setItem('tabsData', JSON.stringify(tabsData));
+        localStorage.setItem('activeTabId', activeTabId);
+    }
+
+    function loadTabsFromLocalStorage() {
+        const tabsData = JSON.parse(localStorage.getItem('tabsData')) || [];
+        tabsData.forEach(data => {
+            createTab(data.url);
+            const iframe = createIframe(data.iframeSrc, data.tabId);
+            iframe.dataset.tabId = data.tabId;
+        });
+
+        if (tabsData.length > 0) {
+            switchTab(tabsData[tabsData.length - 1].tabId);
+        }
+    }
+
+    function loadURL() {
+        const url = urlInput.value.trim();
+        if (activeTabId) {
+            if (url.startsWith('redirect://')) {
+                const redirectUrl = url.slice(10);
+                createTab(redirectUrl);
+                createIframe(redirectUrl, `tab-${tabCount - 1}`);
+                switchTab(`tab-${tabCount - 1}`);
+            } else {
+                const iframe = document.querySelector(`iframe[data-tab-id="${activeTabId}"]`);
+                iframe.src = /^https?:\/\//i.test(url) ? url : `http://${url}`;
+                const tab = document.querySelector(`.tab[data-tab-id="${activeTabId}"]`);
+                tab.querySelector('span').textContent = url;
+            }
+            saveTabsToLocalStorage();
+        }
+    }
+
+    loadButton.addEventListener('click', function() {
+        const url = urlInput.value.trim();
+        if (url) {
+            loadURL();
+        }
+    });
+
+    newTabButton.addEventListener('click', function() {
+        createTab('about:blank');
+        createIframe('about:blank', `tab-${tabCount - 1}`);
+    });
+
+    urlInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            loadURL();
+        }
+    });
+
+    loadTabsFromLocalStorage();
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .fullscreen-button, .close-button {
+            height: 20px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .fullscreen-button:hover, .close-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .fullscreen-button:focus, .close-button:focus {
+            border-color: #00aaff;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+    </script>
+    
+</body>
+</html>
+</script>
