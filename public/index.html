@@ -138,10 +138,14 @@
     }
 
     #update-log-columns {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px; /* Add some gap between columns */
-    }
+    display: flex;
+    justify-content: space-between;
+    overflow: auto; 
+    gap: 20px;  
+    max-height: 400px; 
+    padding: 10px;
+    border: 1px solid #ccc;
+}
 
     .column {
         width: 30%;
@@ -195,31 +199,76 @@
     <h2>Update Log</h2>
     <div id="update-log-columns">
         <div class="column">
-            <h3>Basic</h3>
-            <ul>
-                
-            </ul>
-        </div>
+            <h3>Terms of Service</h3>
+<ul>
+    <h3>Important</h3>
+    <li>By using this site, you agree to the terms outlined below.</li>
+      <p>I am not responsible if you get in trouble</p><br>
+      <p>You will try to not get caught</p><br>
+      <p>You will not get me in trouble as i am not responsible for your use and actions for this page</p><br>
+      <p>Use at your own risk and enjoy</p><br>
+</ul>
+
+<label>
+    <input type="checkbox" id="tosCheckbox"> I accept the Terms of Service
+</label><br>
+
+<button id="acceptButton" disabled>Accept Terms and Proceed</button>
+<button id="close-log" style="display: none">Close</button>
+      </div>
         <hr class="hr-separator">
         <div class="column">
-            <h3>Paid</h3>
+            <h3>New</h3>
             <ul>
-                
+                <h2>ITS FINALLY RELEASED</h2>
+                <p>Yea so after the long time of waiting it is finally released beware it is still some buggy and please tell me about concerns or comments that you have thank you enjoy!</p>
             </ul>
         </div>
-        <hr class="hr-separator">
-        <div class="column">
-            <h3>Beta Testers</h3>
-            <ul>
-                
-            </ul>
         </div>
     </div>
-    <button id="close-log">Close</button>
+    <script>
+        // Function to check if Terms of Service were accepted
+function checkTermsAccepted() {
+    // Get the status from local storage
+    const accepted = localStorage.getItem('tosAccepted') === 'true';
+    
+    // If accepted, show the "Proceed to Website" button, else show the accept button
+    if (accepted) {
+        document.getElementById('close-log').style.display = 'block';
+        document.getElementById('acceptButton').style.display = 'none';
+    } else {
+        document.getElementById('close-log').style.display = 'none';
+        document.getElementById('acceptButton').style.display = 'block';
+    }
+}
+
+// Event listener for the checkbox
+document.getElementById('tosCheckbox').addEventListener('change', function() {
+    const isChecked = this.checked;
+    // Enable the accept button if the checkbox is checked, disable otherwise
+    document.getElementById('acceptButton').disabled = !isChecked;
+});
+
+// Event listener for the accept button
+document.getElementById('acceptButton').addEventListener('click', function() {
+    // Save acceptance status to local storage
+    localStorage.setItem('tosAccepted', 'true');
+    checkTermsAccepted(); // Update UI to show the correct button
+});
+
+// Event listener for the proceed button
+document.getElementById('close-log').addEventListener('click', function() {
+    // You can redirect the user to another page here, for example:
+    window.location.href = 'index.html'; // Redirect to the desired page
+});
+
+// Check terms acceptance on page load
+window.onload = checkTermsAccepted;
+
+    </script>
 </div>
 <!-- Button to Manually Show Update Log -->
 <button id="show-log">Show Update Log</button>
-
 <script>
     // Function to get today's date in 'YYYY-MM-DD' format
     function getTodayDate() {
@@ -229,15 +278,22 @@
 
     // Function to check if the update log should be shown automatically
     function shouldShowUpdateLog() {
-        const lastSeenDate = localStorage.getItem('lastSeenUpdateLog');
-        const todayDate = getTodayDate();
+    const lastSeenDate = localStorage.getItem('lastSeenUpdateLog');
+    const todayDate = getTodayDate();
+    const accepted = localStorage.getItem('tosAccepted') === 'true';
 
-        // If the log hasn't been seen today, show it
-        if (lastSeenDate !== todayDate) {
-            showUpdateLog();
-            localStorage.setItem('lastSeenUpdateLog', todayDate);
-        }
+    // If the user hasn't accepted the Terms of Service and hasn't seen the update log today
+    if (!accepted || lastSeenDate !== todayDate) {
+        showUpdateLog();
+        localStorage.setItem('lastSeenUpdateLog', todayDate);
     }
+}
+
+// Helper function to get today's date in YYYY-MM-DD format
+function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+}
 
     // Function to show the update log
     function showUpdateLog() {
@@ -388,21 +444,21 @@ document.addEventListener("keypress", function onEvent(event) {
       }
       
       .navbar {
-    width: 250px;
-    padding-top: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: #333;
-    border-right: 3px solid transparent;
-    transition: border-right 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  width: 250px;
+  padding-top: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: -200px; /* Initially positioned outside the page */
+  height: 100vh;
+  overflow: hidden;
+  background: #333;
+  border-right: 3px solid transparent;
+  transition: left 0.5s ease, box-shadow 0.3s ease; /* Transition for sliding and shadow */
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
 }
 
 .navbar::before {
@@ -424,8 +480,8 @@ document.addEventListener("keypress", function onEvent(event) {
 }
 
 .navbar:hover {
-    border-right: 3px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  left: 0; /* Move towards the left on hover */
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); /* Optional: shadow on hover */
 }
 
 .navbar ul {
@@ -482,6 +538,10 @@ document.addEventListener("keypress", function onEvent(event) {
     transform: translateX(5px); /* Moves the arrow to the right on hover */
 }
 
+.navbar ul:last-child {
+  margin-top: auto; 
+}
+
       .content {
         margin-top: 50px; 
         padding: 20px;
@@ -494,17 +554,28 @@ document.addEventListener("keypress", function onEvent(event) {
         margin-left: auto;
         margin-right: 25px; 
       }
+
+      #settings {
+        position: relative;
+        bottom: 10%;
+      }
     </style>
   </head>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </head>  
   <body>
     <div class="navbar">
+        <ul>
+          <li><a id="home" href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a id="main" href="Mainhub.html"><i class="fas fa-cogs"></i> Main Hub</a></li>
+          <li><a id="gameweb" href="gameweb.html"><i class="fas fa-gamepad"></i> Gameweb</a></li>
+          <li><a id="gameframe" href="gameframe.html"><i class="fa-solid fa-gamepad"></i> GameFrame</a></li>
+          <!-- <li><a href="games.html"><i class="fas fa-play-circle"></i> Games</a></li> -->
+        </ul>
       <ul>
-        <li><a id="home" href="index.html">Home</a></li>
-        <li><a id="main" href="Mainhub.html">Main Hub</a></li>
-        <li><a id="paid" href="gameweb.html">Gameweb</a></li>
-        <li><a id="mini" href="gameframe.html">GameFrame</a></li>
-        <!-- <li><a href="games.html">Games</a></li> -->
+        <li><a id="settings" href="settings.html"><i class="fas fa-cogs"></i> Settings</a></li>
       </ul>
-    </div>
+      </div>
 </html>
       
