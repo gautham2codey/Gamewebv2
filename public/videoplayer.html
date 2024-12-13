@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VideoWeb | Piped</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+        #button { position: absolute; top: 10px; left: 10px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; cursor: pointer; display: none; animation: wiggle 0.5s ease-in-out 3s; }
+        @keyframes wiggle { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+        body:hover #button { display: block; }
+        body { position: relative; }
+        body:hover #button { display: block; }
+        body:hover #button:hover { display: block; }
+    </style>
+</head>
+<body>
+    <a id="button" href="index.html">Back</a>
+    <iframe src="https://piped.video/trending"></iframe>
+</body>
+<script src="termsofservice.js"></script>
+</html>
