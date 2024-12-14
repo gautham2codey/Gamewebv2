@@ -1,585 +1,143 @@
-<title>Gameweb V2</title>
-<style>
-    ::-webkit-scrollbar {
-        display: none;
-    }
-    scrollbar-width: none;
-    ms-overflow-style: none;
-</style>
-<style>
-   img {
-     display: block;
-     margin: auto;
-     position: absolute;
-     top: 20%;
-     left: 0;
-     right: 0;
-   }
- </style>
-     <style>
-         body {
-             margin: 0;
-             padding: 0;
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             height: 100vh;
-             background-color: #f5f5f5;
-         }
- 
-         .enlarged-text {
-             font-size: 2.5em;
-             font-family: 'Arial', Courier, monospace;
-             color: #bcbcbc;
-             position: absolute;
-             top: 32%;
-             left: 50%;
-             transform: translate(-50%, -50%);
-         }
-         body {
-            font-family: Arial, sans-serif;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Web UI</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
             margin: 0;
-            padding: 0;
-            background-color: #2e2e2e;
-            color: #ffffff;
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+            flex-direction: column;
+            animation: backgroundAnimation 5s infinite alternate;
         }
-        .container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
+
+        @keyframes backgroundAnimation {
+            0% { background: #1a1a1a; }
+            100% { background: #333; }
         }
+
+        header {
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
         h1 {
-            color: #000000;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff5722;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: #333;
+
+        .subtitle {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #ff5722;
         }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #444;
-        }
-        th {
-            background-color: #444;
-        }
-        button {
+
+        .btn {
+            background-color: #ff5722;
+            color: #fff;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
-            background-color: #5a5a5a;
-            color: #ffffff;
+            border-radius: 8px;
+            font-size: 1.2rem;
             cursor: pointer;
-            margin: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        button:hover {
-            background-color: #6a6a6a;
+
+        .btn:hover {
+            transform: scale(1.1);
+            background-color: #e64a19;
         }
-        .form-group {
-            margin: 10px 0;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #f5f5f5;
-        }
-        .form-group input {
+
+        /* Particles background */
+        #particles-js {
+            position: absolute;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #444;
-            border-radius: 5px;
+            height: 100%;
+            z-index: -1;
         }
-     </style>
- </head>
- <body>
-     <div class="enlarged-text">
-      <h1>Gameweb</h1>
-     </div>
-<style>
-   body {
-     background-color: #171717;
-   }
- </style>
-<script src="/js/index.js"></script>
-<script src="/js/go.js"></script>
-<div class="title">
- <h1 id="title1"></h1>
-</div>
-</div>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f9;
-    }
-    
-    #update-log {
-        display: none;
-        position: fixed;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -20%);
-        width: 80%;
-        max-width: 900px;
-        background-color: #000000;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-        border-radius: 8px;
-        padding: 20px;
-        z-index: 1000;
-    }
 
-    #update-log h2 {
-        text-align: center;
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
+        /* Navbar */
+        .navbar {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin-top: 20px;
+        }
 
-    #update-log-columns {
-    display: flex;
-    justify-content: space-between;
-    overflow: auto; 
-    gap: 20px;  
-    max-height: 400px; 
-    padding: 10px;
-    border: 1px solid #ccc;
-}
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
 
-    .column {
-        width: 30%;
-        padding: 10px;
-    }
-
-    .column h3 {
-        font-size: 18px;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-
-    .column ul {
-        list-style-type: disc;
-        padding-left: 20px;
-    }
-
-    .column ul li {
-        margin-bottom: 10px;
-    }
-
-
-    /* Overlay when log is visible */
-    #overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        display: none;
-    }
-
-    /* Add HR between columns */
-    .hr-separator {
-        border: none;
-        border-left: 1px solid #ddd;
-        height: auto;
-        margin: 0 10px;
-    }
-</style>
-</head>
-<body>
-
-<!-- Overlay -->
-<div id="overlay"></div>
-
-<!-- Update Log UI -->
-<div id="update-log">
-    <h2>Update Log</h2>
-    <div id="update-log-columns">
-        <div class="column">
-            <h3>Terms of Service</h3>
-<ul>
-    <h3>Important</h3>
-    <li>By using this site, you agree to the terms outlined below.</li>
-      <p>I am not responsible if you get in trouble</p><br>
-      <p>You will try to not get caught</p><br>
-      <p>You will not get me in trouble as i am not responsible for your use and actions for this page</p><br>
-      <p>Use at your own risk and enjoy</p><br>
-</ul>
-
-<label>
-    <input type="checkbox" id="tosCheckbox"> I accept the Terms of Service
-</label><br>
-
-<button id="acceptButton" disabled>Accept Terms and Proceed</button>
-<button id="close-log" style="display: none">Close</button>
-      </div>
-        <hr class="hr-separator">
-        <div class="column">
-            <h3>New</h3>
-            <ul>
-                <p>12/13/2024</p>\
-                <p>I just added a video player basically like youtube but i think it will just be better</p>
-                <hr>
-                <h2>ITS FINALLY RELEASED</h2>
-                <p>Yea so after the long time of waiting it is finally released beware it is still some buggy and please tell me about concerns or comments that you have thank you enjoy!</p>
-            </ul>
-        </div>
-        </div>
-    </div>
-    <script>
-        // Function to check if Terms of Service were accepted
-function checkTermsAccepted() {
-    // Get the status from local storage
-    const accepted = localStorage.getItem('tosAccepted') === 'true';
-    
-    // If accepted, show the "Proceed to Website" button, else show the accept button
-    if (accepted) {
-        document.getElementById('close-log').style.display = 'block';
-        document.getElementById('acceptButton').style.display = 'none';
-    } else {
-        document.getElementById('close-log').style.display = 'none';
-        document.getElementById('acceptButton').style.display = 'block';
-    }
-}
-
-// Event listener for the checkbox
-document.getElementById('tosCheckbox').addEventListener('change', function() {
-    const isChecked = this.checked;
-    // Enable the accept button if the checkbox is checked, disable otherwise
-    document.getElementById('acceptButton').disabled = !isChecked;
-});
-
-// Event listener for the accept button
-document.getElementById('acceptButton').addEventListener('click', function() {
-    // Save acceptance status to local storage
-    localStorage.setItem('tosAccepted', 'true');
-    checkTermsAccepted(); // Update UI to show the correct button
-});
-
-// Event listener for the proceed button
-document.getElementById('close-log').addEventListener('click', function() {
-    // You can redirect the user to another page here, for example:
-    window.location.href = 'index.html'; // Redirect to the desired page
-});
-
-// Check terms acceptance on page load
-window.onload = checkTermsAccepted;
-
-    </script>
-</div>
-<!-- Button to Manually Show Update Log -->
-<button id="show-log">Show Update Log</button>
-<script>
-    // Function to get today's date in 'YYYY-MM-DD' format
-    function getTodayDate() {
-        const today = new Date();
-        return today.toISOString().split('T')[0];
-    }
-
-    // Function to check if the update log should be shown automatically
-    function shouldShowUpdateLog() {
-    const lastSeenDate = localStorage.getItem('lastSeenUpdateLog');
-    const todayDate = getTodayDate();
-    const accepted = localStorage.getItem('tosAccepted') === 'true';
-
-    // If the user hasn't accepted the Terms of Service and hasn't seen the update log today
-    if (!accepted || lastSeenDate !== todayDate) {
-        showUpdateLog();
-        localStorage.setItem('lastSeenUpdateLog', todayDate);
-    }
-}
-
-// Helper function to get today's date in YYYY-MM-DD format
-function getTodayDate() {
-    const today = new Date();
-    return today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-}
-
-    // Function to show the update log
-    function showUpdateLog() {
-        document.getElementById('update-log').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';  // Show the overlay for dimming background
-    }
-
-    // Function to hide the update log
-    function closeUpdateLog() {
-        document.getElementById('update-log').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';  // Hide the overlay
-    }
-
-    // Event listener for the "Show Update Log" button
-    document.getElementById('show-log').addEventListener('click', showUpdateLog);
-
-    // Event listener for the "Close" button
-    document.getElementById('close-log').addEventListener('click', closeUpdateLog);
-
-    // Automatically check and show the update log if needed
-    shouldShowUpdateLog();
-</script>
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap");
-
-.bg{
- top: 0%;
- left: 0%;
- position: absolute;
- width:100%;
- height:100%;
-}
-.searchbox {
-  width: 45%;
-  height: 9%;
-  color: #FFFFFF;
-  position: absolute;
-  left: 28%;
-  top: 45%;
-  background: rgba(88, 87, 87, 0.5); /* Half-transparent white background */
-  border-radius: 25px;
-}
-
-.search {
-  text-align: center;
-  background: transparent;
-  border-radius: 25px;
-  border: 4px solid #565555;
-  color: #ffffff;
-  width: 100%;
-  height: 100%;
-}
-.title{
- font-family: "Roboto", Arial, Helvetica, sans-serif;
- position: absolute;
- width: 100%;
- height: 100px;
- top:15%;
- float: center;
- align: center;
- text-align: center;
- color: #FFFFFF;
-}
-::placeholder {
- margin: auto;
- color: #FFFFFF;
- font-size: 1.2em;
-}
-.icons{
- align: center;
- text-align: center;
- position: absolute;
- width: 100%;
- height: 70px;
- bottom: 0%;
- left: 0%;
-}
-</style>
-<script>
-var proxy=localStorage.getItem("proxy");
-if (proxy==undefined){
- proxy="Corrosion";
-}
-var fontsize1=2560/screen.width*18;
-var fontsize2=2560/screen.width*6;
-
-title1.style.fontSize = fontsize1+"px";
-search.style.fontSize = fontsize2+"px";
- 
-document.addEventListener("keypress", function onEvent(event) {
-   if (event.key === "Enter") {
-     var url=search.value;
-     window.location.href=window.location.href+"/service/gateway?url=" + url;
-   }
-});
-</script>
-<style>
-  .bottom-image {
-  position: absolute;
-  bottom: -100;
-  left: 50%;
-  transform: translateX(-50%);
-}
-</style>
-<style>
-  .bottom-heading {
-      position: fixed;
-      left: 0;
-      bottom: 150;
-      width: 100%;
-      text-align: center;
-      font-family: Arial, sans-serif;
-      font-size: 2em;
-      color: rgb(166, 165, 165);
-  }
-</style>
-</head>
-<body>
-</body>
-<style>
-    button {
-      border-radius: 5px;
-      border: 3px solid rgb(61, 59, 59);
-      font-family: Arial, sans-serif;
-  font-size: 100%;
-  background-color: rgb(53, 51, 51);
-  color: white;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-  </style>
-  <style>
-    button:hover {
-  background-color: rgb(48, 48, 48);
-}
-</style>
-<script>
-    function blank(){
-      (function () {var url = document.URL; var urlObj = new window.URL(window.location.href); win = window.open(); win.document.body.style.margin = "0"; win.document.body.style.height = "100vh"; var iframe = win.document.createElement("iframe"); iframe.style.border = "none"; iframe.style.width = "100%"; iframe.style.height = "100%"; iframe.style.margin = "0"; iframe.referrerpolicy = "no-referrer"; iframe.allow = "fullscreen"; iframe.src = url.toString(); win.document.body.appendChild(iframe); var script = win.document.createElement("script"); script.src = ""; win.document.body.appendChild(script); })();
-    }
-    </script>
-<head>
-    <style>
-
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      
-      .navbar {
-  width: 250px;
-  padding-top: 0;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: -200px; /* Initially positioned outside the page */
-  height: 100vh;
-  overflow: hidden;
-  background: #333;
-  border-right: 3px solid transparent;
-  transition: left 0.5s ease, box-shadow 0.3s ease; /* Transition for sliding and shadow */
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-}
-
-.navbar::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 60% 40%, 
-        rgba(255, 255, 255, 0.2) 10%, 
-        rgba(0, 0, 0, 0.8) 40%, 
-        rgba(0, 0, 0, 1) 80%);
-    transform: translate(-50%, -50%) rotate(45deg);
-    z-index: 0;
-    pointer-events: none;
-    border-radius: 50%;
-    opacity: 0.3;
-}
-
-.navbar:hover {
-  left: 0; /* Move towards the left on hover */
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); /* Optional: shadow on hover */
-}
-
-.navbar ul {
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-    position: relative;
-    z-index: 2;
-}
-
-.navbar ul li {
-    margin: 10px 0;
-    width: 100%;
-}
-
-.navbar ul li a {
-    color: white;
-    background-color: #444;
-    padding: 15px;
-    width: 100%;
-    text-align: left;
-    text-decoration: none;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Aligns arrow to the far right */
-    position: relative;
-    transition: background-color 0.3s, transform 0.2s;
-    z-index: 2;
-}
-
-.navbar ul li a:hover {
-    background-color: #555;
-    transform: scale(1.05);
-}
-
-.navbar ul li a:active {
-    background-color: #666;
-    transform: scale(1);
-}
-
-.navbar ul li a::after {
-    content: '';
-    position: relative;
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 8px solid white;
-    transition: transform 0.3s ease;
-}
-
-.navbar ul li a:hover::after {
-    transform: translateX(5px); /* Moves the arrow to the right on hover */
-}
-
-.navbar ul:last-child {
-  margin-top: auto; 
-}
-
-      .content {
-        margin-top: 50px; 
-        padding: 20px;
-      }
-  
-      .navbar-brand {
-        color: #fff;
-        font-family: Arial, sans-serif;
-        font-size: 18px;
-        margin-left: auto;
-        margin-right: 25px; 
-      }
-
-      #settings {
-        position: relative;
-        bottom: 10%;
-      }
+        .navbar a:hover {
+            color: #ff5722;
+        }
     </style>
-  </head>
-  <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  </head>  
-  <body>
-    <div class="navbar">
-        <ul>
-          <li><a id="home" href="index.html"><i class="fas fa-home"></i> Home</a></li>
-          <li><a id="main" href="Mainhub.html"><i class="fas fa-cogs"></i> Main Hub</a></li>
-          <li><a id="gameweb" href="gameweb.html"><i class="fas fa-gamepad"></i> Gameweb</a></li>
-          <li><a id="gameframe" href="gameframe.html"><i class="fa-solid fa-gamepad"></i> GameFrame</a></li>
-          <li><a id="gameframe" href="videoplayer.html"><i class="fa-solid fa-video"></i> VideoWeb</a></li>
-          <!-- <li><a href="games.html"><i class="fas fa-play-circle"></i> Games</a></li> -->
-        </ul>
-      <ul>
-        <li><a id="settings" href="settings.html"><i class="fas fa-cogs"></i> Settings</a></li>
-      </ul>
-      </div>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <header>
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1>Welcome to <span class="dynamic-text"></span></h1>
+        <p class="subtitle">Created by yours truly, Gautham.</p>
+        <button class="btn" onclick="openWebsite()">Start Browsing?</button>
+    </header>
+    <ul class="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="gameweb.html">Browse</a></li>
+    </ul>
+
+    <script>
+        const words = ["ghub.", "Freedom.", "Games.", "Explore."];
+        let i = 0, j = 0, isDeleting = false;
+        const textSpan = document.querySelector(".dynamic-text");
+
+        function typeEffect() {
+            if (isDeleting) {
+                textSpan.textContent = words[j].substring(0, i--);
+                if (i < 0) {
+                    isDeleting = false;
+                    j = (j + 1) % words.length;
+                }
+            } else {
+                textSpan.textContent = words[j].substring(0, i++);
+                if (i > words[j].length) isDeleting = true;
+            }
+            setTimeout(typeEffect, isDeleting ? 300 : 150);
+        }
+        typeEffect();
+
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 50 },
+                color: { value: "#ff5722" },
+                size: { value: 4 },
+                move: { enable: true, speed: 1 }
+            }
+        });
+
+        function openWebsite() {
+            window.open("https://example.com", "_blank");
+        }
+    </script>
+</body>
 </html>
-      
