@@ -1,7 +1,6 @@
 const express = require("express")
 const app = express()
 const fetch = require("node-fetch")
-const config = require("./config.json")
 const port = process.env.PORT || config.port
 const Corrosion = require("./lib/server")
 
